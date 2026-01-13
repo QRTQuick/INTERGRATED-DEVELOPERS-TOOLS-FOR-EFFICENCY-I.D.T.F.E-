@@ -1,0 +1,30 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+}
+
+javafx {
+    version = '20.0.2'
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web']
+}
+
+application {
+    mainClass = 'com.idtfe.Main'
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+run {
+    systemProperty 'javafx.runtime.path', 'C:\\javafx-sdk-20.0.2'
+}

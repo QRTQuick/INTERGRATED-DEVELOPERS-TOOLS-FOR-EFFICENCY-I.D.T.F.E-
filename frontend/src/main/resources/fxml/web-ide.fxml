@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idtfe.controllers.WebIdeController" spacing="10.0" style="-fx-padding: 20;">
+   
+   <HBox spacing="10.0" alignment="CENTER_LEFT">
+      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Web IDE" />
+      <Button fx:id="openFileButton" text="Open File" />
+      <Button fx:id="openFolderButton" text="Open Folder" />
+      <Button fx:id="saveFileButton" text="Save" />
+      <Separator orientation="VERTICAL" />
+      <ComboBox fx:id="fileTypeCombo" promptText="File Type" />
+      <Button fx:id="formatButton" text="Format" />
+      <Button fx:id="lintButton" text="Lint" />
+      <Button fx:id="previewButton" text="Preview" />
+      <CheckBox fx:id="autoDetectResourcesCheckBox" text="Auto-detect CSS/JS" />
+   </HBox>
+   
+   <HBox spacing="5.0" alignment="CENTER_LEFT">
+      <Label text="File:" />
+      <Label fx:id="filePathLabel" text="No file selected" style="-fx-text-fill: #666;" />
+   </HBox>
+   
+   <SplitPane dividerPositions="0.2, 0.6" VBox.vgrow="ALWAYS">
+      <!-- File Tree Panel -->
+      <VBox spacing="5.0" minWidth="200.0">
+         <Label text="Project Files:" style="-fx-font-weight: bold;" />
+         <TreeView fx:id="fileTreeView" VBox.vgrow="ALWAYS" />
+      </VBox>
+      
+      <!-- Code Editor Panel -->
+      <VBox spacing="5.0">
+         <Label text="Code Editor:" />
+         <TextArea fx:id="codeEditor" VBox.vgrow="ALWAYS" style="-fx-font-family: 'Consolas', 'Monaco', monospace;" 
+                   promptText="Open a file or start typing your code here..." />
+      </VBox>
+      
+      <!-- Preview and Lint Panel -->
+      <VBox spacing="5.0">
+         <TabPane VBox.vgrow="ALWAYS">
+            <Tab text="Preview" closable="false">
+               <WebView fx:id="previewWebView" />
+            </Tab>
+            <Tab text="Lint Results" closable="false">
+               <TextArea fx:id="lintOutput" editable="false" style="-fx-font-family: monospace;" 
+                         promptText="Lint results will appear here..." />
+            </Tab>
+         </TabPane>
+      </VBox>
+   </SplitPane>
+   
+   <HBox>
+      <Label fx:id="statusLabel" text="Ready" />
+   </HBox>
+   
+</VBox>

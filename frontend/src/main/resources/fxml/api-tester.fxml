@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idtfe.controllers.ApiTesterController" spacing="10.0" style="-fx-padding: 20;">
+   
+   <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="API Tester" />
+   
+   <HBox spacing="10.0" alignment="CENTER_LEFT">
+      <ComboBox fx:id="methodCombo" prefWidth="100.0" />
+      <TextField fx:id="urlField" promptText="Enter API URL" HBox.hgrow="ALWAYS" />
+      <Button fx:id="sendButton" text="Send Request" />
+   </HBox>
+   
+   <VBox spacing="5.0">
+      <Label text="Headers (key: value, one per line):" />
+      <TextArea fx:id="headersArea" prefRowCount="3" promptText="Content-Type: application/json" />
+   </VBox>
+   
+   <VBox spacing="5.0">
+      <Label text="Request Body:" />
+      <TextArea fx:id="bodyArea" prefRowCount="5" promptText="Request body (JSON, XML, etc.)" />
+   </VBox>
+   
+   <Separator />
+   
+   <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+      <Label text="Response:" />
+      <TextArea fx:id="responseArea" editable="false" VBox.vgrow="ALWAYS" style="-fx-font-family: monospace;" />
+   </VBox>
+   
+   <HBox>
+      <Label fx:id="statusLabel" text="Ready" />
+   </HBox>
+   
+</VBox>

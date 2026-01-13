@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idtfe.controllers.ReadmePreviewerController" spacing="10.0" style="-fx-padding: 20;">
+   
+   <HBox spacing="10.0" alignment="CENTER_LEFT">
+      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="README Previewer" />
+      <Button fx:id="loadFileButton" text="Load Markdown File" />
+   </HBox>
+   
+   <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
+      <VBox spacing="5.0">
+         <Label text="Markdown Source:" />
+         <TextArea fx:id="markdownArea" VBox.vgrow="ALWAYS" style="-fx-font-family: monospace;" 
+                   promptText="Enter markdown content or load a file..." />
+      </VBox>
+      
+      <VBox spacing="5.0">
+         <Label text="Preview:" />
+         <WebView fx:id="previewWebView" VBox.vgrow="ALWAYS" />
+      </VBox>
+   </SplitPane>
+   
+   <HBox>
+      <Label fx:id="statusLabel" text="Ready" />
+   </HBox>
+   
+</VBox>

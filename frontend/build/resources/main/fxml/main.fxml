@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idtfe.controllers.MainController">
+   <top>
+      <MenuBar>
+         <Menu text="File">
+            <MenuItem fx:id="exitMenuItem" text="Exit" />
+         </Menu>
+         <Menu text="Tools">
+            <MenuItem fx:id="apiTesterMenuItem" text="API Tester" />
+            <MenuItem fx:id="readmePreviewerMenuItem" text="README Previewer" />
+            <MenuItem fx:id="webIdeMenuItem" text="Web IDE" />
+            <MenuItem fx:id="browserMenuItem" text="Browser" />
+         </Menu>
+         <Menu text="View">
+            <MenuItem fx:id="refreshMenuItem" text="Refresh Modules" />
+            <SeparatorMenuItem />
+            <CheckMenuItem fx:id="statusBarMenuItem" text="Status Bar" selected="true" />
+         </Menu>
+         <Menu text="Help">
+            <MenuItem fx:id="helpMenuItem" text="Help Documentation" />
+            <MenuItem fx:id="githubMenuItem" text="GitHub Repository" />
+            <SeparatorMenuItem />
+            <MenuItem fx:id="aboutMenuItem" text="About I.D.T.F.E" />
+         </Menu>
+      </MenuBar>
+   </top>
+   <left>
+      <VBox prefWidth="200.0" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+         <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="I.D.T.F.E" />
+         <Label style="-fx-font-size: 10px; -fx-text-fill: #888;" text="Quick Red Tech" />
+         <Separator />
+         <Label style="-fx-font-size: 12px; -fx-text-fill: #666;" text="Developer Tools" />
+         <VBox fx:id="moduleList" spacing="5.0" />
+      </VBox>
+   </left>
+   <center>
+      <TabPane fx:id="contentTabs" tabClosingPolicy="ALL_TABS">
+         <Tab closable="false" text="Welcome">
+            <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 50;">
+               <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Welcome to I.D.T.F.E" />
+               <Label style="-fx-font-size: 14px; -fx-text-fill: #666;" text="Integrated Developer Tools for Efficiency" />
+               <Label style="-fx-font-size: 12px; -fx-text-fill: #888;" text="Developed by Chisom Life Eke" />
+               <Label style="-fx-font-size: 12px; -fx-text-fill: #888;" text="A Quick Red Tech Project" />
+               <Separator prefWidth="200.0" />
+               <Label text="Select a tool from the sidebar to get started" />
+               <Label style="-fx-font-size: 10px; -fx-text-fill: #aaa;" text="Open Source • GitHub: QRTQuick" />
+            </VBox>
+         </Tab>
+      </TabPane>
+   </center>
+   <bottom>
+      <HBox fx:id="statusBarContainer" style="-fx-background-color: #e0e0e0; -fx-padding: 5;">
+         <Label fx:id="statusLabel" text="Ready" />
+         <Region HBox.hgrow="ALWAYS" />
+         <Label style="-fx-font-size: 10px; -fx-text-fill: #666;" text="Quick Red Tech © 2026" />
+      </HBox>
+   </bottom>
+</BorderPane>
