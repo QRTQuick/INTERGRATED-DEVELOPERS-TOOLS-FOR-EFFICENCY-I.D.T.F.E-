@@ -19,6 +19,7 @@
             <MenuItem fx:id="codeEditorMenuItem" text="Code Editor" />
             <MenuItem fx:id="projectExplorerMenuItem" text="Project Explorer" />
             <MenuItem fx:id="projectSettingsMenuItem" text="Project Settings" />
+               <MenuItem fx:id="codeYourGitRepoMenuItem" text="Code: Your Git Repo" />
          </Menu>
          <Menu text="View">
             <MenuItem fx:id="refreshMenuItem" text="Refresh Modules" />

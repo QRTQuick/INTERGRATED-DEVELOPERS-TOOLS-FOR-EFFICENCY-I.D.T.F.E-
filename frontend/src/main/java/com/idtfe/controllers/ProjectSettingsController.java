@@ -17,6 +17,7 @@ public class ProjectSettingsController implements Initializable {
     @FXML private ListView<Map<String, Object>> reposList;
     @FXML private ListView<Map<String, Object>> filesList;
     @FXML private Button openFileBtn;
+    @FXML private Button setProjectRepoBtn;
     @FXML private TextArea fileContentArea;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -60,6 +61,8 @@ public class ProjectSettingsController implements Initializable {
         filesList.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) openSelectedFile();
         });
+
+        setProjectRepoBtn.setOnAction(e -> setAsProjectRepo());
     }
 
     private void fetchRepoContents(String owner, String repoName, String path) {
@@ -187,6 +190,41 @@ public class ProjectSettingsController implements Initializable {
             } catch (Exception ex) {
                 javafx.application.Platform.runLater(() -> {
                     Alert a = new Alert(Alert.AlertType.ERROR, "Failed to fetch file: " + ex.getMessage());
+                    a.showAndWait();
+                });
+            }
+        }).start();
+    }
+
+    private void setAsProjectRepo() {
+        Map<String, Object> repo = reposList.getSelectionModel().getSelectedItem();
+        if (repo == null) {
+            javafx.application.Platform.runLater(() -> {
+                Alert a = new Alert(Alert.AlertType.WARNING, "Select a repository first");
+                a.showAndWait();
+            });
+            return;
+        }
+        String fullName = (String) repo.get("full_name");
+        new Thread(() -> {
+            try {
+                var payload = Map.of("full_name", fullName);
+                String resp = ApiClient.getInstance().post("/api/v1/tools/github/set-project-repo", payload);
+                Map<String, Object> data = objectMapper.readValue(resp, Map.class);
+                if ((Boolean) data.getOrDefault("success", false)) {
+                    javafx.application.Platform.runLater(() -> {
+                        Alert a = new Alert(Alert.AlertType.INFORMATION, "Project repo set to: " + fullName);
+                        a.showAndWait();
+                    });
+                } else {
+                    javafx.application.Platform.runLater(() -> {
+                        Alert a = new Alert(Alert.AlertType.ERROR, "Failed: " + data.get("message"));
+                        a.showAndWait();
+                    });
+                }
+            } catch (Exception ex) {
+                javafx.application.Platform.runLater(() -> {
+                    Alert a = new Alert(Alert.AlertType.ERROR, "Error: " + ex.getMessage());
                     a.showAndWait();
                 });
             }

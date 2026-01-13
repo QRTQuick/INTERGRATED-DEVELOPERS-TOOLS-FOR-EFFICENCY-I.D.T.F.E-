@@ -46,6 +46,7 @@ public class MainController implements Initializable {
     @FXML private MenuItem codeEditorMenuItem;
     @FXML private MenuItem projectExplorerMenuItem;
     @FXML private MenuItem projectSettingsMenuItem;
+    @FXML private MenuItem codeYourGitRepoMenuItem;
     @FXML private MenuItem refreshMenuItem;
     @FXML private CheckMenuItem statusBarMenuItem;
     @FXML private CheckMenuItem darkModeMenuItem;
@@ -113,6 +114,7 @@ public class MainController implements Initializable {
         codeEditorMenuItem.setOnAction(e -> openModule("code-editor", "Code Editor"));
         projectExplorerMenuItem.setOnAction(e -> openModule("project-explorer", "Project Explorer"));
         projectSettingsMenuItem.setOnAction(e -> openModule("project-settings", "Project Settings"));
+        codeYourGitRepoMenuItem.setOnAction(e -> openModule("code-your-git-repo", "Code: Your Git Repo"));
         
         // View menu
         refreshMenuItem.setOnAction(e -> loadModules());
@@ -246,9 +248,14 @@ public class MainController implements Initializable {
                 Map<String, Object> data = objectMapper.readValue(resp, Map.class);
                 String targetUrl = "https://github.com/QRTQuick"; // fallback
                 if ((Boolean) data.getOrDefault("success", false)) {
-                    String username = (String) data.getOrDefault("username", null);
-                    if (username != null && !username.isBlank()) {
-                        targetUrl = "https://github.com/" + username;
+                    String projectRepo = (String) data.getOrDefault("project_repo", null);
+                    if (projectRepo != null && !projectRepo.isBlank()) {
+                        targetUrl = "https://github.com/" + projectRepo;
+                    } else {
+                        String username = (String) data.getOrDefault("username", null);
+                        if (username != null && !username.isBlank()) {
+                            targetUrl = "https://github.com/" + username;
+                        }
                     }
                 }
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idtfe.controllers.CodeYourGitRepoController">
+    <top>
+        <ToolBar>
+            <Label text="Code: Your Git Repo" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="refreshBtn" text="Refresh" />
+            <Button fx:id="openInEditorBtn" text="Open in Editor" />
+            <Button fx:id="saveLocalBtn" text="Save Locally" />
+        </ToolBar>
+    </top>
+    <center>
+        <SplitPane dividerPositions="0.25,0.6">
+            <VBox>
+                <Label text="Repositories" />
+                <ListView fx:id="reposList" VBox.vgrow="ALWAYS" />
+            </VBox>
+            <VBox>
+                <Label text="Files" />
+                <ListView fx:id="filesList" VBox.vgrow="ALWAYS" />
+            </VBox>
+            <VBox>
+                <Label text="Editor" />
+                <TextArea fx:id="editorArea" VBox.vgrow="ALWAYS" wrapText="false" />
+            </VBox>
+        </SplitPane>
+    </center>
+</BorderPane>
