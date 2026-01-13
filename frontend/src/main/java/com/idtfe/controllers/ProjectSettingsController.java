@@ -26,6 +26,9 @@ public class ProjectSettingsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         checkStatusBtn.setOnAction(e -> checkStatus());
         syncReposBtn.setOnAction(e -> syncRepos());
+        // disabled until token confirmed
+        syncReposBtn.setDisable(true);
+        setProjectRepoBtn.setDisable(true);
         reposList.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(Map<String, Object> item, boolean empty) {
@@ -95,12 +98,19 @@ public class ProjectSettingsController implements Initializable {
             try {
                 String resp = ApiClient.getInstance().get("/api/v1/tools/github/status");
                 Map<String, Object> data = objectMapper.readValue(resp, Map.class);
+                boolean ok = (Boolean) data.getOrDefault("success", false);
                 javafx.application.Platform.runLater(() -> {
-                    Alert a = new Alert(Alert.AlertType.INFORMATION);
-                    a.setTitle("GitHub Status");
-                    a.setHeaderText(null);
-                    a.setContentText(data.toString());
-                    a.showAndWait();
+                    if (ok) {
+                        syncReposBtn.setDisable(false);
+                        setProjectRepoBtn.setDisable(false);
+                        Alert a = new Alert(Alert.AlertType.INFORMATION, "GitHub linked: " + data.get("username"));
+                        a.showAndWait();
+                    } else {
+                        syncReposBtn.setDisable(true);
+                        setProjectRepoBtn.setDisable(true);
+                        Alert a = new Alert(Alert.AlertType.WARNING, "GitHub not linked: " + data.get("message"));
+                        a.showAndWait();
+                    }
                 });
             } catch (Exception ex) {
                 javafx.application.Platform.runLater(() -> {

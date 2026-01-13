@@ -19,6 +19,7 @@ public class CodeYourGitRepoController implements Initializable {
     @FXML private Button refreshBtn;
     @FXML private Button openInEditorBtn;
     @FXML private Button saveLocalBtn;
+    @FXML private Button pushToGitHubBtn;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ApiClient api = ApiClient.getInstance();
@@ -76,8 +77,41 @@ public class CodeYourGitRepoController implements Initializable {
             }
         });
 
+        pushToGitHubBtn.setOnAction(e -> pushToGitHub());
+
         // initial load
         loadRepos();
+    }
+
+    private void pushToGitHub() {
+        Map<String, Object> repo = reposList.getSelectionModel().getSelectedItem();
+        Map<String, Object> file = filesList.getSelectionModel().getSelectedItem();
+        if (repo == null || file == null) {
+            javafx.application.Platform.runLater(() -> new Alert(Alert.AlertType.WARNING, "Select a repository and file first").showAndWait());
+            return;
+        }
+        String full = (String) repo.get("full_name");
+        String[] parts = full.split("/");
+        if (parts.length != 2) return;
+        String owner = parts[0];
+        String repoName = parts[1];
+        String path = (String) file.getOrDefault("path", file.get("name"));
+        String content = editorArea.getText();
+        new Thread(() -> {
+            try {
+                var payload = Map.of("path", path, "content", content, "message", "Update from I.D.T.F.E");
+                String url = String.format("/api/v1/tools/github/repos/%s/%s/file", owner, repoName);
+                String resp = api.post(url, payload);
+                Map<String, Object> data = objectMapper.readValue(resp, Map.class);
+                if ((Boolean) data.getOrDefault("success", false)) {
+                    javafx.application.Platform.runLater(() -> new Alert(Alert.AlertType.INFORMATION, "Pushed to GitHub").showAndWait());
+                } else {
+                    javafx.application.Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, "Failed: " + data.get("message")).showAndWait());
+                }
+            } catch (Exception ex) {
+                javafx.application.Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, "Error: " + ex.getMessage()).showAndWait());
+            }
+        }).start();
     }
 
     private void loadRepos() {

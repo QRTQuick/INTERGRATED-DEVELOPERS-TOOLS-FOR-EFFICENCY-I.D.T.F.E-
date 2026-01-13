@@ -9,7 +9,6 @@
             <Button fx:id="refreshBtn" text="Refresh" />
             <Button fx:id="openInEditorBtn" text="Open in Editor" />
             <Button fx:id="saveLocalBtn" text="Save Locally" />
-            <Button fx:id="pushToGitHubBtn" text="Push to GitHub" />
         </ToolBar>
     </top>
     <center>
