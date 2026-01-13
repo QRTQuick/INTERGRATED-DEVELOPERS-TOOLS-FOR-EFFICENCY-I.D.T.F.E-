@@ -7,6 +7,7 @@
     <HBox spacing="8.0">
         <Label text="GitHub:" />
         <Button fx:id="checkStatusBtn" text="Check Link" />
+        <Button fx:id="signInBtn" text="Sign in with GitHub" />
         <Button fx:id="syncReposBtn" text="Sync GitHub Repos" />
         <Button fx:id="setProjectRepoBtn" text="Set as Project Repo" />
     </HBox>

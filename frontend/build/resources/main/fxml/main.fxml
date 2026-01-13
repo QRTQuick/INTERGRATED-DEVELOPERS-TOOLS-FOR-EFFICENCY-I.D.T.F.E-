@@ -21,6 +21,10 @@
             <MenuItem fx:id="projectSettingsMenuItem" text="Project Settings" />
                <MenuItem fx:id="codeYourGitRepoMenuItem" text="Code: Your Git Repo" />
          </Menu>
+         <Menu text="AI">
+            <MenuItem fx:id="assistantMenuItem" text="Assistant" />
+            <MenuItem fx:id="aiSettingsMenuItem" text="AI Settings" />
+         </Menu>
          <Menu text="View">
             <MenuItem fx:id="refreshMenuItem" text="Refresh Modules" />
             <SeparatorMenuItem />

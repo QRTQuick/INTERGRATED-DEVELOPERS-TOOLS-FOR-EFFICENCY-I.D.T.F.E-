@@ -47,6 +47,8 @@ public class MainController implements Initializable {
     @FXML private MenuItem projectExplorerMenuItem;
     @FXML private MenuItem projectSettingsMenuItem;
     @FXML private MenuItem codeYourGitRepoMenuItem;
+    @FXML private MenuItem assistantMenuItem;
+    @FXML private MenuItem aiSettingsMenuItem;
     @FXML private MenuItem refreshMenuItem;
     @FXML private CheckMenuItem statusBarMenuItem;
     @FXML private CheckMenuItem darkModeMenuItem;
@@ -115,6 +117,8 @@ public class MainController implements Initializable {
         projectExplorerMenuItem.setOnAction(e -> openModule("project-explorer", "Project Explorer"));
         projectSettingsMenuItem.setOnAction(e -> openModule("project-settings", "Project Settings"));
         codeYourGitRepoMenuItem.setOnAction(e -> openModule("code-your-git-repo", "Code: Your Git Repo"));
+        assistantMenuItem.setOnAction(e -> openModule("assistant", "Assistant"));
+        aiSettingsMenuItem.setOnAction(e -> openModule("ai-settings", "AI Settings"));
         
         // View menu
         refreshMenuItem.setOnAction(e -> loadModules());

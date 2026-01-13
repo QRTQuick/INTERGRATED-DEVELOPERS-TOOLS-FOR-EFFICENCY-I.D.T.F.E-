@@ -5,6 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import java.net.URL;
 import java.util.List;
@@ -13,6 +17,7 @@ import java.util.ResourceBundle;
 
 public class ProjectSettingsController implements Initializable {
     @FXML private Button checkStatusBtn;
+    @FXML private Button signInBtn;
     @FXML private Button syncReposBtn;
     @FXML private ListView<Map<String, Object>> reposList;
     @FXML private ListView<Map<String, Object>> filesList;
@@ -25,6 +30,7 @@ public class ProjectSettingsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         checkStatusBtn.setOnAction(e -> checkStatus());
+        signInBtn.setOnAction(e -> signIn());
         syncReposBtn.setOnAction(e -> syncRepos());
         // disabled until token confirmed
         syncReposBtn.setDisable(true);
@@ -66,6 +72,47 @@ public class ProjectSettingsController implements Initializable {
         });
 
         setProjectRepoBtn.setOnAction(e -> setAsProjectRepo());
+    }
+
+    private void signIn() {
+        new Thread(() -> {
+            try {
+                String authUrl = ApiClient.getInstance().getBaseUrl() + "/auth/github/login";
+                if (Desktop.isDesktopSupported()) {
+                    try {
+                        Desktop.getDesktop().browse(new URI(authUrl));
+                    } catch (IOException | URISyntaxException ex) {
+                        // ignore and fall back
+                    }
+                }
+                // Poll for status for up to ~20 seconds
+                for (int i = 0; i < 10; i++) {
+                    Thread.sleep(2000);
+                    try {
+                        String resp = ApiClient.getInstance().get("/api/v1/tools/github/status");
+                        Map<String, Object> data = objectMapper.readValue(resp, Map.class);
+                        boolean ok = (Boolean) data.getOrDefault("success", false);
+                        if (ok) {
+                            javafx.application.Platform.runLater(() -> {
+                                syncReposBtn.setDisable(false);
+                                setProjectRepoBtn.setDisable(false);
+                                Alert a = new Alert(Alert.AlertType.INFORMATION, "Signed in as: " + data.get("username"));
+                                a.showAndWait();
+                            });
+                            return;
+                        }
+                    } catch (Exception ex) {
+                        // ignore and keep polling
+                    }
+                }
+                javafx.application.Platform.runLater(() -> {
+                    Alert a = new Alert(Alert.AlertType.INFORMATION, "If the browser flow completed, click 'Check Link' to refresh status.");
+                    a.showAndWait();
+                });
+            } catch (InterruptedException e) {
+                // ignore
+            }
+        }).start();
     }
 
     private void fetchRepoContents(String owner, String repoName, String path) {

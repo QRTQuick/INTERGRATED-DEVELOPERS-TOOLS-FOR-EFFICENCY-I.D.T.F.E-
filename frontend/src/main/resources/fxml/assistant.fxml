@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idtfe.controllers.AssistantController" spacing="8.0" style="-fx-padding:10;">
+    <Label text="Assistant" style="-fx-font-size:16; -fx-font-weight:bold;" />
+    <ListView fx:id="messagesList" VBox.vgrow="ALWAYS" />
+    <HBox spacing="8.0">
+        <TextArea fx:id="inputArea" prefRowCount="2" HBox.hgrow="ALWAYS" promptText="Enter prompt..." />
+        <VBox>
+            <Button fx:id="sendBtn" text="Send" />
+            <Button fx:id="clearBtn" text="Clear" />
+        </VBox>
+    </HBox>
+</VBox>
