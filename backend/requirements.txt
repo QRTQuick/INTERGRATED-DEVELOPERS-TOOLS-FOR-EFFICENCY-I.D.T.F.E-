@@ -2,4 +2,4 @@ Flask==2.2.5
 requests==2.31.0
 markdown==3.5.1
 python-dotenv==1.0.0
-Flask-Cors==3.1.1
+Flask-Cors==3.0.10
