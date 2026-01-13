@@ -16,7 +16,7 @@ public class ApiClient {
     private static ApiClient instance;
     
     // Backend URL - Change this to your Render deployment URL
-    private final String baseUrl = System.getProperty("backend.url", "http://localhost:8000");
+    private final String baseUrl = "https://intergrated-developers-tools-for.onrender.com";
     // For Render deployment, use: "https://your-service-name.onrender.com"
     
     private final CloseableHttpClient httpClient;
@@ -59,6 +59,12 @@ public class ApiClient {
     
     public String get(String endpoint) throws IOException {
         HttpGet request = new HttpGet(baseUrl + endpoint);
+        var response = httpClient.execute(request);
+        return EntityUtils.toString(response.getEntity());
+    }
+
+    public String rawGet(String fullUrl) throws IOException {
+        HttpGet request = new HttpGet(fullUrl);
         var response = httpClient.execute(request);
         return EntityUtils.toString(response.getEntity());
     }

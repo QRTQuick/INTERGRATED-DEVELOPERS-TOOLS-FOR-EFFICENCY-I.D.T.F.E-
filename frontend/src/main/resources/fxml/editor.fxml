@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idtfe.controllers.EditorController">
+    <top>
+        <ToolBar>
+            <Label text="Code Editor" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="openButton" text="Open" />
+            <Button fx:id="saveButton" text="Save" />
+        </ToolBar>
+    </top>
+    <center>
+        <TextArea fx:id="editorArea" wrapText="false" />
+    </center>
+</BorderPane>

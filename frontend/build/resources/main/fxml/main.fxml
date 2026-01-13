@@ -14,11 +14,17 @@
             <MenuItem fx:id="readmePreviewerMenuItem" text="README Previewer" />
             <MenuItem fx:id="webIdeMenuItem" text="Web IDE" />
             <MenuItem fx:id="browserMenuItem" text="Browser" />
+            <SeparatorMenuItem />
+            <MenuItem fx:id="terminalMenuItem" text="Terminal" />
+            <MenuItem fx:id="codeEditorMenuItem" text="Code Editor" />
+            <MenuItem fx:id="projectExplorerMenuItem" text="Project Explorer" />
+            <MenuItem fx:id="projectSettingsMenuItem" text="Project Settings" />
          </Menu>
          <Menu text="View">
             <MenuItem fx:id="refreshMenuItem" text="Refresh Modules" />
             <SeparatorMenuItem />
             <CheckMenuItem fx:id="statusBarMenuItem" text="Status Bar" selected="true" />
+            <CheckMenuItem fx:id="darkModeMenuItem" text="Dark Mode" selected="true" />
          </Menu>
          <Menu text="Help">
             <MenuItem fx:id="helpMenuItem" text="Help Documentation" />
@@ -29,11 +35,11 @@
       </MenuBar>
    </top>
    <left>
-      <VBox prefWidth="200.0" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
-         <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="I.D.T.F.E" />
-         <Label style="-fx-font-size: 10px; -fx-text-fill: #888;" text="Quick Red Tech" />
+      <VBox fx:id="leftContainer" prefWidth="200.0" spacing="8.0">
+         <Label fx:id="appTitleLabel" text="I.D.T.F.E" />
+         <Label fx:id="subtitleLabel" text="Quick Red Tech" />
          <Separator />
-         <Label style="-fx-font-size: 12px; -fx-text-fill: #666;" text="Developer Tools" />
+         <Label fx:id="toolsLabel" text="Developer Tools" />
          <VBox fx:id="moduleList" spacing="5.0" />
       </VBox>
    </left>
@@ -53,10 +59,11 @@
       </TabPane>
    </center>
    <bottom>
-      <HBox fx:id="statusBarContainer" style="-fx-background-color: #e0e0e0; -fx-padding: 5;">
+      <HBox fx:id="statusBarContainer" spacing="8.0" style="-fx-padding:6;">
          <Label fx:id="statusLabel" text="Ready" />
+         <Label fx:id="datetimeLabel" text="" />
          <Region HBox.hgrow="ALWAYS" />
-         <Label style="-fx-font-size: 10px; -fx-text-fill: #666;" text="Quick Red Tech © 2026" />
+         <Label fx:id="copyrightLabel" text="Quick Red Tech © 2026" />
       </HBox>
    </bottom>
 </BorderPane>

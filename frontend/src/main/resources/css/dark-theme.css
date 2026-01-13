@@ -1,0 +1,115 @@
+/* Dark Theme CSS for I.D.T.F.E */
+
+.root {
+    -fx-base: #0d0d0d;
+    -fx-background: #0d0d0d;
+    background: #0d0d0d;
+    -fx-control-inner-background: #1e1e1e;
+    -fx-control-inner-background-alt: #1e1e1e;
+    -fx-font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 13px;
+    font-size: 13px;
+}
+
+.text-field, .text-area, .combo-box, .button, .list-view, .tree-view, .tab-pane, .tab, .label {
+    -fx-text-fill: #e0e0e0;
+    -fx-background-color: #1e1e1e;
+    background-color: #1e1e1e;
+    -fx-border-color: #555555;
+    border-color: #555555;
+}
+
+.text-field:focused, .text-area:focused {
+    -fx-border-color: #007acc;
+    border-color: #007acc;
+}
+
+.button {
+    -fx-background-color: #007acc;
+    background-color: #007acc;
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-background-color: #005999;
+    background-color: #005999;
+}
+
+.list-view .list-cell {
+    -fx-background-color: #1e1e1e;
+    background-color: #1e1e1e;
+    -fx-text-fill: #e0e0e0;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: #007acc;
+    background-color: #007acc;
+}
+
+.tab-pane {
+    -fx-tab-min-width: 120px;
+}
+
+.tab {
+    -fx-background-color: #0d0d0d;
+    background-color: #0d0d0d;
+}
+
+.tab:selected {
+    -fx-background-color: #1e1e1e;
+    background-color: #1e1e1e;
+}
+
+.web-view {
+    -fx-background-color: #0d0d0d;
+    background-color: #0d0d0d;
+}
+
+/* Code editor styling */
+.text-area .content {
+    -fx-background-color: #0d0d0d;
+    background-color: #0d0d0d;
+    -fx-text-fill: #e0e0e0;
+    -fx-font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    -fx-font-size: 12px;
+    font-size: 12px;
+}
+
+/* Status bar */
+.label.status {
+    -fx-background-color: #007acc;
+    background-color: #007acc;
+    -fx-text-fill: white;
+    -fx-padding: 5px;
+    padding: 5px;
+}
+
+/* Sidebar and status bar containers */
+#leftContainer {
+    -fx-background-color: transparent;
+    background-color: transparent;
+    -fx-padding: 10px;
+    padding: 10px;
+}
+
+#statusBarContainer {
+    -fx-background-color: transparent;
+    background-color: transparent;
+    -fx-padding: 6px;
+    padding: 6px;
+}
+
+/* Labels in sidebar */
+#appTitleLabel {
+    -fx-font-size: 16px;
+    font-size: 16px;
+    -fx-font-weight: bold;
+    font-weight: bold;
+}
+
+#subtitleLabel, #toolsLabel, #copyrightLabel {
+    -fx-text-fill: #aaa;
+    color: #aaa;
+}

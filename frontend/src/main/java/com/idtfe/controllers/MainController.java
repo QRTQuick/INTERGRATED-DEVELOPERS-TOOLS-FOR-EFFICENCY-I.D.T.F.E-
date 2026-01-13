@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -20,13 +21,20 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.awt.Desktop;
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 public class MainController implements Initializable {
     
     @FXML private VBox moduleList;
     @FXML private TabPane contentTabs;
     @FXML private Label statusLabel;
+    @FXML private Label datetimeLabel;
     @FXML private HBox statusBarContainer;
+    @FXML private javafx.scene.layout.VBox leftContainer;
     
     // Menu items
     @FXML private MenuItem exitMenuItem;
@@ -34,8 +42,13 @@ public class MainController implements Initializable {
     @FXML private MenuItem readmePreviewerMenuItem;
     @FXML private MenuItem webIdeMenuItem;
     @FXML private MenuItem browserMenuItem;
+    @FXML private MenuItem terminalMenuItem;
+    @FXML private MenuItem codeEditorMenuItem;
+    @FXML private MenuItem projectExplorerMenuItem;
+    @FXML private MenuItem projectSettingsMenuItem;
     @FXML private MenuItem refreshMenuItem;
     @FXML private CheckMenuItem statusBarMenuItem;
+    @FXML private CheckMenuItem darkModeMenuItem;
     @FXML private MenuItem helpMenuItem;
     @FXML private MenuItem githubMenuItem;
     @FXML private MenuItem aboutMenuItem;
@@ -47,6 +60,43 @@ public class MainController implements Initializable {
         setupMenuActions();
         loadModules();
         statusLabel.setText("Ready");
+        // Start datetime updater
+        try {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            Timeline clock = new Timeline(new KeyFrame(Duration.seconds(1), ev -> {
+                if (datetimeLabel != null) {
+                    datetimeLabel.setText(LocalDateTime.now().format(dtf));
+                }
+            }));
+            clock.setCycleCount(Timeline.INDEFINITE);
+            clock.play();
+        } catch (Exception ex) {
+            // ignore if animation fails
+        }
+        // Apply theme after scene is ready
+        javafx.application.Platform.runLater(() -> {
+            try {
+                if (darkModeMenuItem == null) return;
+                Scene scene = statusLabel.getScene();
+                if (scene == null) return;
+                String css = getClass().getResource("/css/dark-theme.css").toExternalForm();
+                if (darkModeMenuItem.isSelected()) {
+                    if (!scene.getStylesheets().contains(css)) scene.getStylesheets().add(css);
+                } else {
+                    scene.getStylesheets().remove(css);
+                }
+                // wire toggle
+                darkModeMenuItem.setOnAction(e -> {
+                    if (darkModeMenuItem.isSelected()) {
+                        if (!scene.getStylesheets().contains(css)) scene.getStylesheets().add(css);
+                    } else {
+                        scene.getStylesheets().remove(css);
+                    }
+                });
+            } catch (Exception ex) {
+                // ignore
+            }
+        });
     }
     
     private void setupMenuActions() {
@@ -58,6 +108,11 @@ public class MainController implements Initializable {
         readmePreviewerMenuItem.setOnAction(e -> openModule("readme-previewer", "README Previewer"));
         webIdeMenuItem.setOnAction(e -> openModule("web-ide", "Web IDE"));
         browserMenuItem.setOnAction(e -> openModule("browser", "Browser"));
+        // Developer tools
+        terminalMenuItem.setOnAction(e -> openModule("terminal", "Terminal"));
+        codeEditorMenuItem.setOnAction(e -> openModule("code-editor", "Code Editor"));
+        projectExplorerMenuItem.setOnAction(e -> openModule("project-explorer", "Project Explorer"));
+        projectSettingsMenuItem.setOnAction(e -> openModule("project-settings", "Project Settings"));
         
         // View menu
         refreshMenuItem.setOnAction(e -> loadModules());
@@ -94,6 +149,14 @@ public class MainController implements Initializable {
                         }
                     }
                 });
+                
+                // Load version
+                String versionResponse = ApiClient.getInstance().get("/api/v1/version");
+                Map<String, Object> versionData = objectMapper.readValue(versionResponse, Map.class);
+                String version = (String) versionData.get("version");
+                
+                javafx.application.Platform.runLater(() -> 
+                    statusLabel.setText("Version " + version + " - Ready"));
                 
             } catch (IOException e) {
                 javafx.application.Platform.runLater(() -> 
@@ -176,20 +239,35 @@ public class MainController implements Initializable {
     }
     
     private void openGitHub() {
-        try {
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().browse(new URI("https://github.com/QRTQuick"));
-            } else {
-                // Fallback: show URL in dialog
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("GitHub Repository");
-                alert.setHeaderText("Visit our GitHub");
-                alert.setContentText("GitHub Repository: https://github.com/QRTQuick\n\nCopy this URL to your browser to view the source code.");
-                alert.showAndWait();
+        // Prefer opening the user's linked GitHub account if available
+        new Thread(() -> {
+            try {
+                String resp = ApiClient.getInstance().get("/api/v1/tools/github/status");
+                Map<String, Object> data = objectMapper.readValue(resp, Map.class);
+                String targetUrl = "https://github.com/QRTQuick"; // fallback
+                if ((Boolean) data.getOrDefault("success", false)) {
+                    String username = (String) data.getOrDefault("username", null);
+                    if (username != null && !username.isBlank()) {
+                        targetUrl = "https://github.com/" + username;
+                    }
+                }
+
+                final String openUrl = targetUrl;
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().browse(new URI(openUrl));
+                } else {
+                    javafx.application.Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("GitHub Repository");
+                        alert.setHeaderText("Visit GitHub");
+                        alert.setContentText("GitHub Repository: " + openUrl + "\n\nCopy this URL to your browser to view the source code.");
+                        alert.showAndWait();
+                    });
+                }
+            } catch (Exception e) {
+                javafx.application.Platform.runLater(() -> statusLabel.setText("Could not open GitHub link"));
             }
-        } catch (Exception e) {
-            statusLabel.setText("Could not open GitHub link");
-        }
+        }).start();
     }
     
     private void showAbout() {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="8" alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idtfe.controllers.GitHubController">
+    <children>
+        <Label text="Link GitHub Account" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+        <Label text="Enter a GitHub personal access token (with 'repo' scope) to link your account." />
+        <HBox spacing="8">
+            <TextField fx:id="tokenField" promptText="ghp_..." HBox.hgrow="ALWAYS" />
+            <Button text="Link" fx:id="linkButton" />
+        </HBox>
+        <Label fx:id="statusLabel" text="Not linked" />
+    </children>
+</VBox>

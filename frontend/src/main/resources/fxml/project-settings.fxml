@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idtfe.controllers.ProjectSettingsController" spacing="8.0" style="-fx-padding:10;">
+    <Label text="Project Settings" style="-fx-font-size:16; -fx-font-weight:bold;" />
+    <Separator />
+    <HBox spacing="8.0">
+        <Label text="GitHub:" />
+        <Button fx:id="checkStatusBtn" text="Check Link" />
+        <Button fx:id="syncReposBtn" text="Sync GitHub Repos" />
+    </HBox>
+    <HBox spacing="8.0">
+        <ListView fx:id="reposList" prefWidth="300.0" prefHeight="200.0" />
+        <VBox spacing="6.0">
+            <Label text="Repository Files" />
+            <ListView fx:id="filesList" prefWidth="400.0" prefHeight="200.0" />
+            <Button fx:id="openFileBtn" text="Open File" />
+        </VBox>
+    </HBox>
+    <Label text="File Content" />
+    <TextArea fx:id="fileContentArea" prefRowCount="10" wrapText="false" />
+</VBox>
